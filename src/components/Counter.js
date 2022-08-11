@@ -21,15 +21,7 @@ function Counter({
 }) {
   const [modalstate, SetModal] = useState(false);
   const [sonne, setSonne] = useState(false);
-  console.log(bgColor);
-  let audio = new Audio("/audio/s.mp3");
   let click = new Audio("/audio/c.mp3");
-
-  if (sonne) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
 
   const changeColor = (bg, count, start, minutes, secondes) => {
     console.log(minutes);
@@ -50,7 +42,10 @@ function Counter({
     setStart(!start);
     if (countColor === "bg-blue-400" || countColor === "bg-green-400") {
       SetModal(false);
-      changeColor("bg-red-500", "bg-red-400", "text-red-500", 25, 0);
+      if(min < 1 && sec < 1){
+        changeColor("bg-red-500", "bg-red-400", "text-red-500", 25, 1);}else {
+          changeColor("bg-red-500", "bg-red-400", "text-red-500", 25, 0)
+      }
     }
   }
   let timer;
@@ -73,7 +68,6 @@ function Counter({
         }
         if (min < 1 && sec < 1) {
           setSonne(true);
-          console.log("working");
           startCount();
           showmodal();
         }
@@ -92,11 +86,6 @@ function Counter({
     sec = "0" + sec;
   }
 
-  function closeModel() {
-    setSonne(false);
-    SetModal(false);
-    setStart(true);
-  }
 
   function shortbreak() {
     setSonne(false);
@@ -122,15 +111,15 @@ function Counter({
 
   return (
     <div
-      className={`${countColor} h-[290px] w-[370px] md:w-[500px] md:h-[310px]   rounded-md mt-10 text-white text-lg`}
+      className={`${countColor} h-[290px] w-[370px] md:w-[500px] md:h-[310px]   rounded-md mt-10 text-white text-lg `}
     >
       <div className="flex justify-around mt-5">
         <button
           className={`${
             countColor === "bg-red-400" ? "bg-red-500" : countColor
-          } w-[110px]  rounded-lg`}
+          } w-[110px]  rounded-lg hover:drop-shadow-md`}
           onClick={() =>
-            changeColor("bg-red-500", "bg-red-400", "text-red-500", 0, 2)
+            changeColor("bg-red-500", "bg-red-400", "text-red-500", 25, 0)
           }
         >
           Pomodoro
@@ -138,9 +127,9 @@ function Counter({
         <button
           className={`${
             countColor === "bg-blue-400" ? "bg-blue-500" : countColor
-          } w-[110px] rounded-lg`}
+          } w-[110px] rounded-lg hover:drop-shadow-md `}
           onClick={() =>
-            changeColor("bg-blue-500", "bg-blue-400", "text-blue-500", 0, 2)
+            changeColor("bg-blue-500", "bg-blue-400", "text-blue-500", 5, 0)
           }
         >
           Short Break
@@ -148,9 +137,9 @@ function Counter({
         <button
           className={`${
             countColor === "bg-green-400" ? "bg-green-500" : countColor
-          } w-[110px] rounded-lg`}
+          } w-[110px] rounded-lg hover:drop-shadow-md`}
           onClick={() =>
-            changeColor("bg-green-500", "bg-green-400", "text-green-500", 0, 2)
+            changeColor("bg-green-500", "bg-green-400", "text-green-500", 15, 0)
           }
         >
           Long Break
@@ -165,7 +154,7 @@ function Counter({
         <button
           className={`${
             start ? "border-b-0" : "border-b-8"
-          } lg:mt-[70px] mt-16 bg-white ${startColor} h-12 w-40 font-bold rounded `}
+          } lg:mt-[70px] mt-16 bg-white ${startColor} h-12 w-40 font-bold rounded hover:drop-shadow-xl`}
           onClick={() => startCount()}
         >
           {start ? "STOP" : "START"}
@@ -182,7 +171,6 @@ function Counter({
 
       {modalstate && (
         <div
-          onClick={() => closeModel()}
           class="relative z-10"
           aria-labelledby="modal-title"
           role="dialog"
@@ -206,30 +194,35 @@ function Counter({
                         aria-hidden="true"
                       >
                         <path
-                          stroke-linecap="round"
+                          stroke-linecap="round"red
                           stroke-linejoin="round"
                           d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                         />
                       </svg>
+                      
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <h3
-                        class="text-lg leading-6 font-medium text-gray-900"
-                        id="modal-title"
-                      >
-                        Deactivate account
-                      </h3>
                       <div class="mt-2">
-                        <p class="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All
-                          of your data will be permanently removed. This action
-                          cannot be undone.
-                        </p>
+
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6  sm:flex sm:flex-row-reverse">
+                  <button
+                    type="button"
+                    onClick={() => shortbreak()}
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    Short break
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => longbreak()}
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    Long break
+                  </button>
                   <button
                     type="button"
                     onClick={() => promodoro()}
@@ -239,17 +232,10 @@ function Counter({
                   </button>
                   <button
                     type="button"
-                    onClick={() => shortbreak()}
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    onClick={() => showmodal()}
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
                   >
-                    Short break
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => longbreak()}
-                    class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                  >
-                    Long break
+                    Cancel
                   </button>
                 </div>
               </div>
