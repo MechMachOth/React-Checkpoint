@@ -1,7 +1,7 @@
 import { BsCheckCircleFill } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdOutlineEditNote } from "react-icons/md";
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 
 const Todo = memo(
   ({
@@ -66,6 +66,8 @@ const Todo = memo(
 
     const editHandler = () => {
       setTask(false);
+      console.log(todos)
+      console.log(todo)
 
       todo.select = true;
       todo.edit = true;

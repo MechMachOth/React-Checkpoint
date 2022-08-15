@@ -20,6 +20,7 @@ function App() {
   const [todo,setTodo]=useState('');
   return (
     <div className={`${bgColor} w-sceen h-screen`}>
+      
       <Nav
         countColor={countColor}
         setCountColor={setCountColor}

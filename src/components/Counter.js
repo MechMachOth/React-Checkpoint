@@ -20,7 +20,6 @@ function Counter({
   setDiese,
 }) {
   const [modalstate, SetModal] = useState(false);
-  const [sonne, setSonne] = useState(false);
   let click = new Audio("/audio/c.mp3");
 
   const changeColor = (bg, count, start, minutes, secondes) => {
@@ -67,7 +66,6 @@ function Counter({
           setSec(60);
         }
         if (min < 1 && sec < 1) {
-          setSonne(true);
           startCount();
           showmodal();
         }
@@ -88,14 +86,12 @@ function Counter({
 
 
   function shortbreak() {
-    setSonne(false);
     changeColor("bg-blue-500", "bg-blue-400", "text-blue-500", 5, 0);
     SetModal(!modalstate);
     setDiese(diese+1)
 
   }
   function longbreak() {
-    setSonne(false);
     changeColor("bg-green-500", "bg-green-400", "text-green-500", 15, 0);
     SetModal(!modalstate);
     setDiese(diese+1)
@@ -103,7 +99,6 @@ function Counter({
   }
 
   function promodoro() {
-    setSonne(false);
     changeColor("bg-red-500", "bg-red-400", "text-red-500", 25, 0);
     SetModal(!modalstate);
     setDiese(diese+1)
